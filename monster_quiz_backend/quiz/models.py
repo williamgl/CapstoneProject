@@ -3,18 +3,18 @@ from django.db import models
 
 # Create your models here.
 class Quiz(models.Model):
-    title = models.CharField(max_length=255)  # quiz title
+    name = models.CharField(max_length=255)  # quiz name
     slug = models.SlugField()  # address name for url creation
     description = models.TextField(blank=True, null=True)  # description
     completed = models.BooleanField(default=False)  # completed
     date_added = models.DateTimeField(auto_now_add=True)  # created_at
 
     class Meta:
-        ordering = ('-title', )
+        ordering = ('-date_added', )
 
     def __str__(self):
-        # return the quiz title
-        return self.title
+        # return the quiz name
+        return self.name
 
     def get_absolute_url(self):
         return f'/{self.slug}/'

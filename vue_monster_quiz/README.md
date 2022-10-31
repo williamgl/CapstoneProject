@@ -6,6 +6,7 @@ yarn global add @vue/cli
 yarn add vue-router@4
 npm install axios
 npm install bulma
+npm install bulma-toast
 ```
 
 ## Project setup

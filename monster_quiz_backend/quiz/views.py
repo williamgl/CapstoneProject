@@ -20,7 +20,7 @@ class LatestQuestionsList(APIView):
 class QuestionDetail(APIView):
     def get_object(self, quiz_slug, question_slug):
         try:
-            return Question.objects.filter(quiz__slug=quiz_slug).get(slug=question_slug)
+            return Question.objects.filter(quiz_slug=quiz_slug).get(slug=question_slug)
         except Question.DoesNotExist:
             raise Http404
 
@@ -30,7 +30,7 @@ class QuestionDetail(APIView):
         return Response(serializer.data)
 
 
-class TaskDetail(APIView):
+class QuizDetail(APIView):
     def get_object(self, quiz_slug):
         try:
             return Quiz.objects.get(slug=quiz_slug)
@@ -38,6 +38,6 @@ class TaskDetail(APIView):
             raise Http404
 
     def get(self, request, quiz_slug, format=None):
-        task = self.get_object(quiz_slug)
-        serializer = QuizSerializer(task)
+        quiz = self.get_object(quiz_slug)
+        serializer = QuizSerializer(quiz)
         return Response(serializer.data)

@@ -1,49 +1,88 @@
 <template>
-  <main class="form-signin w-100 m-auto">
-  <form @submit.prevent = "submit">
-    <h1 class="h3 mb-3 fw-normal">Log In</h1>
+    <div class="page-log-in">
+        <div class="columns">
+            <div class="column is-4 is-offset-4">
+                <h1 class="title">Log in</h1>
 
-    <div class="form-floating">
-      <input v-model="data.email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email Address</label>
-    </div>
-    <div class="form-floating">
-      <input v-model="data.password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
+                <form @submit.prevent="submitForm">
+                    <div class="field">
+                        <label>Username</label>
+                        <div class="control">
+                            <input type="text" class="input" v-model="username">
+                        </div>
+                    </div>
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p></p>
-    Or <router-link to="/signup">click here</router-link> to sign up!
-  </form>
-  </main>
+                    <div class="field">
+                        <label>Password</label>
+                        <div class="control">
+                            <input type="password" class="input" v-model="password">
+                        </div>
+                    </div>
+
+                    <div class="notification is-danger" v-if="errors.length">
+                        <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-dark">Log in</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    Or <router-link to="/sign-up">click here</router-link> to sign up!
+                </form>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-import { reactive } from 'vue';
-import axios from 'axios';
-import {useRouter} from 'vue-router';
+import axios from 'axios'
 export default {
-  name: 'LogIn',
-  setup() {
-    const data = reactive({
-      email: '',
-      password: ''
-    });
-    const router = useRouter ();
-    const submit = async () =>{
-      const response = await axios.post('http://localhost:8000/api/login', data, {
-        withCredentials: true
-      });
-      //https://axios-http.com/docs/config_defaults
-      //https://www.tabnine.com/code/javascript/functions/axios/AxiosRequestConfig/headers
-      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-      await router.push('/');
-    }
+    name: 'LogIn',
+    data() {
+        return {
+            username: '',
+            password: '',
+            errors: []
+        }
+    },
+    mounted() {
+        document.title = 'Log In | Djackets'
+    },
+    methods: {
+        async submitForm() {
+            axios.defaults.headers.common["Authorization"] = ""
+            localStorage.removeItem("token")
+            const formData = {
+                username: this.username,
+                password: this.password
+            }
+            await axios
+                .post("/api/v1/token/login/", formData)
+                .then(response => {
+                    const token = response.data.auth_token
+                    this.$store.commit('setToken', token)
 
-    return {
-      data, submit
+                    axios.defaults.headers.common["Authorization"] = "Token " + token
+                    localStorage.setItem("token", token)
+                    const toPath = this.$route.query.to || '/cart'
+                    this.$router.push(toPath)
+                })
+                .catch(error => {
+                    if (error.response) {
+                        for (const property in error.response.data) {
+                            this.errors.push(`${property}: ${error.response.data[property]}`)
+                        }
+                    } else {
+                        this.errors.push('Something went wrong. Please try again')
+
+                        console.log(JSON.stringify(error))
+                    }
+                })
+        }
     }
-  }
 }
 </script>

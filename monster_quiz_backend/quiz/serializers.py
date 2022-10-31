@@ -21,8 +21,8 @@ class QuizSerializer(serializers.ModelSerializer):
         model = Quiz
         fields = (
             "id",
-            "title",
-            "get_absolute_url"
+            "name",
+            "get_absolute_url",
             "description",
             "completed",
             "questions",

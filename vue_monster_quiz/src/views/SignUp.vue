@@ -1,49 +1,115 @@
 <template>
-  <main class="form-signin w-100 m-auto">
-  <form @submit.prevent="submit">
-    <h1 class="h3 mb-3 fw-normal">Welcome to Sign Up</h1>
+    <div class="page-sign-up">
+        <div class="columns">
+            <div class="column is-4 is-offset-4">
+                <h1 class="title">Sign up</h1>
 
-    <div class="form-floating">
-      <input v-model="data.email" type="email" class="form-control" placeholder="name@example.com">
-      <label>Email address</label>
-    </div>
-    <div class="form-floating">
-      <input v-model="data.password" type="password" class="form-control" placeholder="Password">
-      <label>Password</label>
-    </div>
+                <form @submit.prevent="submitForm">
+                    <div class="field">
+                        <label>Username</label>
+                        <div class="control">
+                            <input type="text" class="input" v-model="username">
+                        </div>
+                    </div>
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
-    <p></p>
-    Or <router-link to="/login">click here</router-link> to log in!
-  </form>
-  </main>
+                    <div class="field">
+                        <label>Email</label>
+                        <div class="control">
+                            <input type="text" class="input" v-model="email">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Password</label>
+                        <div class="control">
+                            <input type="password" class="input" v-model="password">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Repeat password</label>
+                        <div class="control">
+                            <input type="password" class="input" v-model="password2">
+                        </div>
+                    </div>
+
+                    <div class="notification is-danger" v-if="errors.length">
+                        <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-dark">Sign up</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    Or <router-link to="/log-in">click here</router-link> to log in!
+                </form>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-import { reactive } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
-
+import axios from 'axios'
+import { toast } from 'bulma-toast'
 export default {
-  name: 'SignUp',
-  setup(){
-    const data = reactive({
-      email: '',
-      password: ''
-    });
-
-    const router = useRouter();
-
-    const submit = async () => {
-      await axios.post('http://localhost:8000/api/signup', data);
-
-      await router.push('/login');
+    name: 'SignUp',
+    data() {
+        return {
+            username: '',
+            email:'',
+            password: '',
+            password2: '',
+            errors: []
+        }
+    },
+    methods: {
+        submitForm() {
+            this.errors = []
+            if (this.username === '') {
+                this.errors.push('The username is missing')
+            }
+            if (this.password === '') {
+                this.errors.push('The password is too short')
+            }
+            if (this.password !== this.password2) {
+                this.errors.push('The passwords doesn\'t match')
+            }
+            if (!this.errors.length) {
+                const formData = {
+                    username: this.username,
+                    password: this.password,
+                    email:this.email
+                }
+                axios
+                    .post("/api/v1/users/", formData)
+                    .then(response => {
+                        toast({
+                            message: 'Account created, please log in!',
+                            type: 'is-success',
+                            dismissible: true,
+                            pauseOnHover: true,
+                            duration: 2000,
+                            position: 'bottom-right',
+                        })
+                        this.$router.push('/log-in')
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            for (const property in error.response.data) {
+                                this.errors.push(`${property}: ${error.response.data[property]}`)
+                            }
+                            console.log(JSON.stringify(error.response.data))
+                        } else if (error.message) {
+                            this.errors.push('Something went wrong. Please try again')
+                            console.log(JSON.stringify(error))
+                        }
+                    })
+            }
+        }
     }
-
-    return {
-      data,
-      submit 
-    }
-  }
 }
 </script>
