@@ -1,5 +1,5 @@
 .DS_Store
-vue_monster_quiz/node_modules
+node_modules/
 /dist
 
 __pycache__/
