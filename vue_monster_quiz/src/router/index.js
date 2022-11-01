@@ -8,7 +8,7 @@ import SignUp from '@/views/SignUp.vue'
 const routes = [
   {
     path: '/',
-    component: HomePage
+    component: HomePagegit
   },
   {
     path: '/:quiz_slug/:question_slug/',
