@@ -2,6 +2,7 @@
 vue_monster_quiz/node_modules
 /dist
 
+__pycache__/
 *.pyc
 
 # local env files
