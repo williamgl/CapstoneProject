@@ -1,5 +1,5 @@
 .DS_Store
-node_modules
+vue_monster_quiz/node_modules
 /dist
 
 *.pyc
