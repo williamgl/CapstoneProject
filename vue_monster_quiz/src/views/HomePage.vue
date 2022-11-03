@@ -3,9 +3,11 @@
   <div class="home">
     <section class="hero is-medium is-dark mb-6">
         <div class="hero-body has-text-centered">
+
             <p class="title mb-6">
                 Welcome to Monster Quiz
             </p>
+            <img src="@/assets/background1.jpg" >
             <p class="subtitle">
               <h3>Get Answers with Quizzes</h3>
               <h4>Be the Person with Great Concepts</h4>
