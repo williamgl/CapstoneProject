@@ -1,12 +1,20 @@
 # vue_monster_quiz
 
-## Project prerequest
+## Front end Prerequisites
+First Check out : https://nodejs.org/en/download/ to Install nodejs and npm.
+
+## Install Dependencies
 ```
-yarn global add @vue/cli
-yarn add vue-router@4
-npm install axios
-npm install bulma
-npm install bulma-toast
+(sudo) npm install -g @vue/cli
+(sudo) npm install --global yarn
+(sudo) npm install axios
+(sudo) npm install bulma
+```
+
+## Front End Run
+In `vue_monster_quiz` run
+```
+npm run serve
 ```
 
 ## Project setup
