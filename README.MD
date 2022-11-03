@@ -4,23 +4,20 @@ CS467 Project - Team West Coast Monster App
   * Team Member: Ruosha Pang
   * Team Member: Gan Li
 
-## Project prerequest-backend
-```
-sudo apt install python3.8
-python3.8 -m pip install Django
-python3.8 -m pip install djangorestframework
-python3.8 -m pip install django-cors-headers
-```
+## Instructions to run project locally
+1.Clone the repository to your local.
+2.Install all dependencies for the front end in [CapstoneProject/vue_monster_quiz/README.md](./vue_monster_quiz/README.md) and back end in [CapstoneProject/monster_quiz_backend/README.md](./monster_quiz_backend/README.md).
+3. For back end, cd to the `monster_quiz_backend` directory, run ```python manage.py runserver```
+4. For front end, cd to the `vue_monster_quiz` directory, run ```npm run serve```
+With both backend and frontend running, the monster quiz app is available at http://localhost:8080/.
 
-## How to run
-1. at monster_quiz_backend directory, run `python3.8 manage.py runserver`
-2. then cd to vue_monster_quiz directory to set up and run the frontend <br/>
-With both backend and frontend running, the Monster Quiz is available at http://localhost:8080/
-
-## dependencies
-1. follow the link to install pip if you don't have one. https://pip.pypa.io/en/stable/installation/ <br/>
-2. A few dependencies need to installed, follow this:
-https://blog.logrocket.com/how-to-build-vue-js-app-django-rest-framework/#why-vuejs-django-rest-framework 
+## Instructions to access database
+1. After run ```python manage.py runserver``` in the `monster_quiz_backend` directory
+2. The database server address is available at: http://127.0.0.1:8000/admin
+3. Using credentials below to login to the database.
+```username: admin 
+password: database1
+```
 
 
 ## How to create superuser for database
