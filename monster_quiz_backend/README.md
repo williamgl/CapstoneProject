@@ -23,7 +23,7 @@ pip install pillow
 pip install stripe
 ```
 
-# Backend run
+# Back end run
 In `monster_quiz_backend` run
 ```
 python manage.py runserver
