@@ -7,8 +7,16 @@ python3 get-pip.py
 ```
 
 ## Install virtual environment and activate
+### install virtual environment
 ```
 brew install virtualenv
+```
+or 
+```
+pip install virtualenv
+```
+### actiivate virtual environment
+```
 virtualenv environment_3_8_2
 source environment_3_8_2/bin/activate
 ```
