@@ -15,7 +15,7 @@ or
 ```
 pip install virtualenv
 ```
-### actiivate virtual environment
+### activate virtual environment
 ```
 virtualenv environment_3_8_2
 source environment_3_8_2/bin/activate
